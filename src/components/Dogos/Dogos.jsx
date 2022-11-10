@@ -7,6 +7,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import PetsIcon from "@mui/icons-material/Pets";
 
 const Dogos = () => {
    const [allBreeds, setAllBreeds] = useState(null);
@@ -46,9 +48,17 @@ const Dogos = () => {
 
    if (loading) {
       return (
-         <div>
-            <h1>Cargando...</h1>
-         </div>
+         <IconButton
+            sx={{
+               width: "100%",
+               display: "flex",
+               justifyContent: "center",
+               alignContent: "center",
+            }}
+            color="secondary"
+         >
+            <PetsIcon fontSize="large" />
+         </IconButton>
       );
    }
 
@@ -56,8 +66,8 @@ const Dogos = () => {
    console.log(listAllBreeds);
 
    return (
-      <Box sx={{ bgcolor: "#cfe8fc", height: "100%" }}>
-         <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+      <Box sx={{ height: "100%" }}>
+         <List sx={{ width: "100%", maxWidth: 220, bgcolor: "background.paper" }}>
             {listAllBreeds.map((breed) => {
                const labelId = `checkbox-list-label-${breed}`;
 
