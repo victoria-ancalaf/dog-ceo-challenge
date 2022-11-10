@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -10,41 +10,9 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import PetsIcon from "@mui/icons-material/Pets";
 
-const Dogos = () => {
-   const [allBreeds, setAllBreeds] = useState(null);
-   const [loading, setLoading] = useState(true);
+const DogList = ({ allBreeds, loading, setSelectedBreed }) => {
+   
    const [checked, setChecked] = useState([0]);
-
-   useEffect(() => {
-      getData();
-   }, []);
-
-   const handleToggle = (value) => () => {
-      const currentIndex = checked.indexOf(value);
-      const newChecked = [...checked];
-
-      if (currentIndex === -1) {
-         newChecked.push(value);
-      } else {
-         newChecked.splice(currentIndex, 1);
-      }
-
-      setChecked(newChecked);
-   };
-
-   async function getData() {
-      await axios("https://dog.ceo/api/breeds/list/all")
-         .then((response) => {
-            setAllBreeds(response.data.message);
-         })
-         .catch((error) => {
-            // handle error
-            console.log(error);
-         })
-         .finally(() => {
-            setLoading(false);
-         });
-   }
 
    if (loading) {
       return (
@@ -63,7 +31,28 @@ const Dogos = () => {
    }
 
    const listAllBreeds = Object.keys(allBreeds);
-   console.log(listAllBreeds);
+
+   const handleToggleSelectedDog = (value) => async () => {
+      const currentIndex = checked.indexOf(value);
+      const newChecked = [...checked];
+
+      try {
+         const response = await axios.get(`https://dog.ceo/api/breed/${value}/images`);
+         setSelectedBreed(response.data.message);
+      } catch (error) {
+         console.error(error);
+      }
+
+      if (currentIndex === -1) {
+         newChecked.push(value);
+      } else {
+         newChecked.splice(currentIndex, 1);
+      }
+
+      setChecked(newChecked);
+   };
+
+   
 
    return (
       <Box sx={{ height: "100%" }}>
@@ -73,7 +62,11 @@ const Dogos = () => {
 
                return (
                   <ListItem key={breed} disablePadding>
-                     <ListItemButton role={undefined} onClick={handleToggle(breed)} dense>
+                     <ListItemButton
+                        role={undefined}
+                        onClick={handleToggleSelectedDog(breed)}
+                        dense
+                     >
                         <ListItemIcon>
                            <Checkbox
                               edge="start"
@@ -93,4 +86,4 @@ const Dogos = () => {
    );
 };
 
-export default Dogos;
+export default DogList;
