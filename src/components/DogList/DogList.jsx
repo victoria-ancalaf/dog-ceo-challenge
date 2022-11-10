@@ -9,9 +9,11 @@ import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import PetsIcon from "@mui/icons-material/Pets";
+import ClearIcon from "@mui/icons-material/Clear";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
 
 const DogList = ({ allBreeds, loading, setSelectedBreed }) => {
-   
    const [checked, setChecked] = useState([0]);
 
    if (loading) {
@@ -52,10 +54,26 @@ const DogList = ({ allBreeds, loading, setSelectedBreed }) => {
       setChecked(newChecked);
    };
 
-   
+   const clearCheckboxes = () => {
+      setSelectedBreed(null);
+      setChecked([0]);
+   };
 
    return (
       <Box sx={{ height: "100%" }}>
+         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+            <Button
+               variant="contained"
+               size="small"
+               color="secondary"
+               startIcon={<ClearIcon />}
+               sx={{ m: 2 }}
+               onClick={clearCheckboxes}
+            >
+               Limpiar
+            </Button>
+         </Box>
+         <Divider />
          <List sx={{ width: "100%", maxWidth: 220, bgcolor: "background.paper" }}>
             {listAllBreeds.map((breed) => {
                const labelId = `checkbox-list-label-${breed}`;

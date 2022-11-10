@@ -45,7 +45,6 @@ const Home = (props) => {
 
    const drawer = (
       <Box>
-         <Toolbar />
          <DogList allBreeds={allBreeds} loading={loading} setSelectedBreed={setSelectedBreed} />
       </Box>
    );
@@ -102,6 +101,7 @@ const Home = (props) => {
                   "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
                }}
             >
+               <Toolbar />
                {drawer}
             </Drawer>
             <Drawer
@@ -112,6 +112,7 @@ const Home = (props) => {
                }}
                open
             >
+               <Toolbar />
                {drawer}
             </Drawer>
          </Box>
