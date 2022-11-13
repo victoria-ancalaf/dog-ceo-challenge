@@ -25,7 +25,7 @@ const DogList = ({ allBreeds, loading, setSelectedBreed }) => {
                justifyContent: "center",
                alignContent: "center",
             }}
-            color="secondary"
+            color="primary"
          >
             <PetsIcon fontSize="large" />
          </IconButton>
@@ -37,6 +37,13 @@ const DogList = ({ allBreeds, loading, setSelectedBreed }) => {
    const handleToggleSelectedDog = (value) => async () => {
       const currentIndex = checked.indexOf(value);
       const newChecked = [...checked];
+      // const checkboxSelection = [];
+
+      if (currentIndex === -1) {
+         newChecked.push(value);
+      } else {
+         newChecked.splice(currentIndex, 1);
+      }
 
       try {
          const response = await axios.get(`https://dog.ceo/api/breed/${value}/images`);
@@ -45,13 +52,15 @@ const DogList = ({ allBreeds, loading, setSelectedBreed }) => {
          console.error(error);
       }
 
-      if (currentIndex === -1) {
-         newChecked.push(value);
-      } else {
-         newChecked.splice(currentIndex, 1);
-      }
-
       setChecked(newChecked);
+
+      /* newChecked.forEach(async (element) => {
+         const response = await axios.get(`https://dog.ceo/api/breed/${element}/images`);
+         checkboxSelection.push(response.data.message);
+         console.log(checkboxSelection);
+      });
+
+      setSelectedBreed(checkboxSelection); */
    };
 
    const clearCheckboxes = () => {
@@ -94,7 +103,11 @@ const DogList = ({ allBreeds, loading, setSelectedBreed }) => {
                               inputProps={{ "aria-labelledby": labelId }}
                            />
                         </ListItemIcon>
-                        <ListItemText id={labelId} primary={breed} />
+                        <ListItemText
+                           id={labelId}
+                           primary={breed}
+                           sx={{ textTransform: "capitalize" }}
+                        />
                      </ListItemButton>
                   </ListItem>
                );

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import DogList from "../DogList";
 import AppBar from "@mui/material/AppBar";
 import Drawer from "@mui/material/Drawer";
+import Divider from "@mui/material/Divider";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -45,6 +46,8 @@ const Home = (props) => {
 
    const drawer = (
       <Box>
+         <Toolbar />
+         <Divider />
          <DogList allBreeds={allBreeds} loading={loading} setSelectedBreed={setSelectedBreed} />
       </Box>
    );
@@ -54,7 +57,13 @@ const Home = (props) => {
    return (
       <Box sx={{ display: "flex" }}>
          <CssBaseline />
-         <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+         <AppBar
+            position="fixed"
+            sx={{
+               width: { sm: `calc(100% - ${drawerWidth}px)` },
+               ml: { sm: `${drawerWidth}px` },
+            }}
+         >
             <Toolbar>
                <IconButton
                   size="large"
@@ -101,7 +110,6 @@ const Home = (props) => {
                   "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
                }}
             >
-               <Toolbar />
                {drawer}
             </Drawer>
             <Drawer
@@ -112,13 +120,18 @@ const Home = (props) => {
                }}
                open
             >
-               <Toolbar />
                {drawer}
             </Drawer>
          </Box>
          <Box
             component="main"
-            sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+            sx={{
+               bgcolor: "background.paper",
+               flexGrow: 1,
+               p: 3,
+               width: { sm: `calc(100% - ${drawerWidth}px)` },
+               height: "100%"
+            }}
          >
             <Toolbar />
             <DogImages selectedBreed={selectedBreed} />
